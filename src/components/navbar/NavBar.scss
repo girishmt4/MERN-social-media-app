@@ -1,58 +1,65 @@
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1.5rem;
-  height: 3rem;
-  border: 1px solid lightgray;
-  position: sticky;
-  top: 0;
-  background-color: white;
+@import "../../App.scss";
 
-  .left {
+.navbar {
+  @include themify($themes) {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    justify-content: space-between;
+    padding: 0.5rem 1.5rem;
+    height: 3rem;
+    border: 1px solid themed("border");
+    position: sticky;
+    top: 0;
+    background-color: themed("bg");
+    color: themed("textColor");
 
-    span {
-      font-weight: bold;
-      font-size: 1.25rem;
-      color: navy;
-    }
-
-    .search {
+    .left {
       display: flex;
       align-items: center;
       gap: 2rem;
-      border: 1px solid lightgray;
-      border-radius: 0.5rem;
-      padding: 0.25rem;
 
-      input {
-        border: none;
-        width: 30vw;
+      span {
+        font-weight: bold;
+        font-size: 1.25rem;
+        color: themed("logo");
+      }
+
+      .search {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        border: 1px solid themed("border");
+        border-radius: 0.5rem;
+        padding: 0.25rem;
+
+        input {
+          border: none;
+          width: 30vw;
+          background-color: transparent;
+          color: themed("textColor");
+        }
       }
     }
-  }
 
-  .right {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-
-    .user {
+    .right {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      font-weight: bold;
+      gap: 2rem;
 
-      img {
-        width: 2rem;
-        height: 2rem;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-      span {
+      .user {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: bold;
+
+        img {
+          width: 2rem;
+          height: 2rem;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        span {
+        }
       }
     }
   }

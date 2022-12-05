@@ -13,16 +13,20 @@ import Tutorials from "../../assets/11.png";
 import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
 import Item from "./item/Item";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const LeftBar = () => {
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <div className="leftbar">
       <div className="container">
         <div className="menu">
           <Item
             className="user"
-            image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyyFHOw8dO_4vTwdIEx6VeI-2U6mBz7YTQgjWVJcvT_sx3C3MMSkJ-Q8wlEeANOyTtGhY&usqp=CAU"
-            label="GT"
+            image={currentUser.profilePic}
+            label={currentUser.name}
           />
           <Item className="item" image={Friends} label="Friends" />
           <Item className="item" image={Groups} label="Groups" />
