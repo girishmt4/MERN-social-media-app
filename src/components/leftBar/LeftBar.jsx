@@ -21,8 +21,8 @@ const LeftBar = () => {
 
   return (
     <div className="leftbar">
-      <div className="container">
-        <div className="menu">
+      <div className="main-container">
+        <div className="item-container">
           <Item
             className="user"
             image={currentUser.profilePic}
@@ -34,7 +34,7 @@ const LeftBar = () => {
           <Item className="item" image={Watch} label="Watch" />
           <Item className="item" image={Memories} label="Memories" />
         </div>
-        <div className="menu">
+        <div className="item-container">
           <span>Your Shortcuts</span>
           <Item className="item" image={Events} label="Events" />
           <Item className="item" image={Gaming} label="Gaming" />
@@ -43,7 +43,7 @@ const LeftBar = () => {
           <Item className="item" image={Messages} label="Messages" />
         </div>
 
-        <div className="menu">
+        <div className="item-container">
           <span>Others</span>
           <Item className="item" image={Fund} label="Fund" />
           <Item className="item" image={Tutorials} label="Tutorials" />
