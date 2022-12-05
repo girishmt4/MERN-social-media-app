@@ -21,9 +21,9 @@ function App() {
     return (
       <div className={`theme-${darkMode ? 'dark' : 'light'}`}>
         <NavBar />
-        <div className="bars-container">
+        <div className="bars-container" style={{ display: 'flex' }}>
           <LeftBar />
-          <div className="outlet">
+          <div className="outlet" style={{ flex: 6 }}>
             <Outlet />
           </div>
           <RightBar />

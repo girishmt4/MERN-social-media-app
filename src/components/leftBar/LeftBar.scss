@@ -1,6 +1,7 @@
 @import "../../App.scss";
 
 .leftbar {
+  flex: 2;
   @include themify($themes) {
     position: sticky;
     top: 4rem;
@@ -9,12 +10,19 @@
     background-color: themed("bgSoft");
     color: themed("textColor");
 
+    @include mobile {
+      display: none;
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }
 
     .main-container {
       padding: 1rem;
+      @include tablet {
+        padding: 0.5rem;
+      }
 
       .item-container {
         // display: flex;
@@ -25,6 +33,9 @@
         box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.2);
         padding: 1rem;
         margin: 1rem;
+        @include tablet {
+          margin: 0.5rem;
+        }
         background-color: themed("bg");
 
         span {
@@ -43,7 +54,7 @@
             object-fit: cover;
           }
           span {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 30rem;
           }
         }
@@ -58,8 +69,7 @@
             height: 2rem;
           }
           span {
-            font-size: 1rem;
-            font-weight: 30rem;
+            font-size: 0.9rem;
           }
         }
       }
