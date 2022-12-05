@@ -1,65 +1,12 @@
+import Posts from "../../components/posts/Posts";
+import Stories from "../../components/stories/Stories";
 import "./Homepage.scss";
 
 const Homepage = () => {
   return (
     <div className="homepage">
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
-      <div>HOME</div>
+      <Stories />
+      <Posts />
     </div>
   );
 };

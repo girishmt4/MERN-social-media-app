@@ -6,6 +6,7 @@ import LeftBar from "./components/leftBar/LeftBar";
 import RightBar from "./components/rightBar/RightBar";
 import Profile from './pages/profile/Profile';
 import Homepage from './pages/homepage/Homepage';
+import './App.scss';
 
 function App() {
 
@@ -13,11 +14,11 @@ function App() {
 
   const Layout = () => {
     return (
-      <div>
+      <div className="theme-dark">
         <NavBar />
-        <div style={{ display: "flex" }}>
+        <div className="bars-container">
           <LeftBar />
-          <div style={{ flex: '6' }}>
+          <div className="outlet">
             <Outlet />
           </div>
           <RightBar />
