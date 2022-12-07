@@ -3,7 +3,6 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 
 //Register
-
 router.post('/register', async (req, res) => {
     try {
         //generate new password
@@ -24,7 +23,6 @@ router.post('/register', async (req, res) => {
     catch (err) {
         console.log(err);
     }
-
 });
 
 
@@ -40,7 +38,7 @@ router.post('/login', async (req, res) => {
         res.status(200).json(user)
     }
     catch (err) {
-        console.log(err);
+        res.status(500).json(err);
     }
 })
 
