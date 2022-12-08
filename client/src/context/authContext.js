@@ -6,9 +6,25 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
 
-    const login = () => {
-        //To Do
-        setCurrentUser({ id: 1, name: "Girish Tiwale", profilePic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyyFHOw8dO_4vTwdIEx6VeI-2U6mBz7YTQgjWVJcvT_sx3C3MMSkJ-Q8wlEeANOyTtGhY&usqp=CAU" });
+    const login = async (inputs) => {
+        await fetch('http://localhost:8800/api/auth/login', {
+            method: "POST",
+            body: JSON.stringify(inputs),
+            credentials: "include",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => {
+                if (res.ok) return res.json();
+                return res.json().then(errorMessage => {
+                    throw new Error(errorMessage);
+                })
+            })
+            .then(data => {
+                setCurrentUser(data._doc);
+            })
     };
 
     useEffect(() => {

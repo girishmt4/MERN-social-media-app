@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
         min: 3,
-        max: 20,
+        max: 50,
         unique: true
     },
     email: {
@@ -19,44 +20,37 @@ const UserSchema = new mongoose.Schema({
         required: true,
         min: 6,
     },
-    profilePicture: {
+    name: {
+        type: String,
+        required: true
+    },
+    profilePic: {
         type: String,
         default: ""
     },
-    coverPicture: {
+    coverPic: {
         type: String,
         default: ""
     },
-    followers: {
-        type: Array,
-        default: []
-    },
-    following: {
-        type: Array,
-        default: []
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false
-    },
-    desc: {
-        type: String,
-        max: 50
-    },
+    // followers: {
+    //     type: Array,
+    //     default: []
+    // },
+    // following: {
+    //     type: Array,
+    //     default: []
+    // },
     city: {
         type: String,
         max: 50
     },
-    city: {
+    website: {
         type: String,
         max: 50
-    },
-    relationship: {
-        type: Number,
-        enum: [1, 2, 3]
     }
 },
     { timestamps: true }
 );
 
-module.exports = mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema);
+// module.exports = 

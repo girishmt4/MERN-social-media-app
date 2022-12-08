@@ -1,13 +1,31 @@
+import { useState } from "react";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import "./Login.scss";
 
 const Login = () => {
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState(null);
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const loginHandler = () => {
-    login();
+  const changeHandler = (event) => {
+    setInputs((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+  };
+
+  const loginHandler = async (event) => {
+    event.preventDefault();
+
+    try {
+      await login(inputs);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -27,8 +45,19 @@ const Login = () => {
         <div className="login-form">
           <h1>Login</h1>
           <form action="">
-            <input type="text" placeholder="Username" />
-            <input type="password" placeholder="Password" />
+            <input
+              type="text"
+              placeholder="Username"
+              name="username"
+              onChange={changeHandler}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={changeHandler}
+            />
+            {error && error}
             <button onClick={loginHandler}>Login</button>
           </form>
         </div>

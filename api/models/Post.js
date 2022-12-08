@@ -1,8 +1,10 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const PostSchema = new mongoose.Schema({
     userId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     desc: {
@@ -15,11 +17,11 @@ const PostSchema = new mongoose.Schema({
     likes: {
         type: Array,
         default: []
-    },
+    }
 },
     {
         timestamps: true
     }
 );
 
-module.exports = mongoose.model("Post", PostSchema);
+export default mongoose.model("Post", PostSchema);
