@@ -16,7 +16,10 @@ const CommentSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
         required: true
-    },
-});
+    }
+},
+    {
+        timestamps: true
+    });
 
 export default mongoose.model("Comment", CommentSchema);

@@ -18,6 +18,26 @@ export const getPosts = async (req, res) => {
         return res.status(200).json(posts);
 
     });
+}
+
+//create a post
+export const createPost = async (req, res) => {
+
+    const token = req.cookies.accessToken;
+    if (!token) {
+        return res.status(401).json("Not Logged in");
+    }
+    jwt.verify(token, process.env.JWT_SECRET, async (err, userInfo) => {
+        if (err) return res.status(403).json("invalid token");
+
+        const newPost = new Post({ ...req.body, userId: userInfo.id });
+        try {
+            const savedPost = await newPost.save();
+            res.status(200).json(savedPost)
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    });
 
 }
 
@@ -47,16 +67,7 @@ export const getPosts = async (req, res) => {
 //     }
 // })
 
-//create a post
-export const createPost = async (req, res) => {
-    const newPost = new Post(req.body);
-    try {
-        const savedPost = await newPost.save();
-        res.status(200).json(savedPost)
-    } catch (err) {
-        res.status(500).json(err);
-    }
-}
+
 
 // //update a post
 // router.put('/:id', async (req, res) => {
