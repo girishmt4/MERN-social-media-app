@@ -32,14 +32,14 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    // followers: {
-    //     type: Array,
-    //     default: []
-    // },
-    // following: {
-    //     type: Array,
-    //     default: []
-    // },
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     city: {
         type: String,
         max: 50

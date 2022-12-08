@@ -1,3 +1,5 @@
+import User from "../models/User.js";
+
 export const getUser = async (req, res) => {
     res.send('get user')
     // try {
@@ -59,28 +61,29 @@ export const getUser = async (req, res) => {
 
 
 
-// //follow a user
-// router.put('/:id/follow', async (req, res) => {
-//     if (req.body.userId !== req.params.id) {
-//         try {
-//             const user = await User.findById(req.params.id);
-//             const currentUser = await User.findById(req.body.userId);
-//             if (!user.followers.includes(req.body.userId)) {
-//                 await user.updateOne({ $push: { followers: req.body.userId } });
-//                 await currentUser.updateOne({ $push: { following: req.params.id } });
+//follow a user
+export const followUser = async (req, res) => {
+    if (req.body.userId !== req.params.id) {
+        try {
+            const user = await User.findById(req.params.id);
+            const currentUser = await User.findById(req.body.userId);
+            if (!user.followers.includes(req.body.userId)) {
+                await user.updateOne({ $push: { followers: req.body.userId } });
+                await currentUser.updateOne({ $push: { following: req.params.id } });
 
-//                 res.status(200).json("Now Following this user")
-//             }
-//             else {
-//                 res.status(403).json("Allready a follower");
-//             }
-//         } catch (err) {
-//             res.status(500).json(err)
-//         }
-//     } else {
-//         res.status(403).json("cant follow yourself");
-//     }
-// })
+                res.status(200).json("Now Following this user")
+            }
+            else {
+                res.status(403).json("Allready a follower");
+            }
+        } catch (err) {
+            res.status(500).json(err)
+            console.log(err);
+        }
+    } else {
+        res.status(403).json("cant follow yourself");
+    }
+}
 
 // //unfollow a user
 // router.put('/:id/unfollow', async (req, res) => {
