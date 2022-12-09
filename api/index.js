@@ -2,8 +2,6 @@ import express from "express";
 const app = express();
 import mongoose from "mongoose";
 import * as dotenv from 'dotenv';
-import helmet from "helmet";
-import morgan from "morgan";
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
@@ -12,6 +10,7 @@ import authRoutes from './routes/auth.js';
 import postRoutes from './routes/posts.js';
 import likeRoutes from './routes/likes.js';
 import commentRoutes from './routes/comments.js';
+import multer from "multer";
 
 dotenv.config();
 
@@ -26,11 +25,23 @@ app.use(cors({
 }));
 
 
-// app.use(helmet());
-// app.use(morgan('common'));
-
 app.use(cookieParser());
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, '../client/public/upload')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/api/upload', upload.single('file'), (req, res) => {
+    const file = req.file;
+    res.status(200).json(file.filename);
+})
 
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);

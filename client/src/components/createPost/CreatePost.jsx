@@ -14,6 +14,26 @@ const CreatePost = () => {
 
   const queryClient = useQueryClient();
 
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      console.log(file);
+      const response = await fetch("http://localhost:8800/api/upload", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+        // headers: {
+        //   Accept: "application/json",
+        //   "Content-Type": "application/json",
+        // },
+      });
+      return response.json();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const mutation = useMutation(
     async (newPost) => {
       try {
@@ -39,21 +59,37 @@ const CreatePost = () => {
     }
   );
 
-  const shareHandler = (event) => {
+  const shareHandler = async (event) => {
     event.preventDefault();
-    mutation.mutate({ desc });
+    let imgUrl = "";
+    if (file) imgUrl = await upload();
+    mutation.mutate({ desc, img: imgUrl });
+    setDesc("");
+    setFile(null);
   };
 
   return (
     <div className="share">
       <div className="container">
         <div className="top">
-          <img src={"/upload/" + currentUser.profilePic} alt="" />
-          <input
-            type="text"
-            placeholder={`What's on your mind ${currentUser.name}?`}
-            onChange={(e) => setDesc(e.target.value)}
-          />
+          <div className="left">
+            <img src={"/upload/" + currentUser.profilePic} alt="" />
+            <input
+              type="text"
+              placeholder={`What's on your mind ${currentUser.name}?`}
+              onChange={(e) => setDesc(e.target.value)}
+              value={desc}
+            />
+          </div>
+          <div className="right">
+            {file && (
+              <img
+                className="file"
+                alt=""
+                src={URL.createObjectURL(file)}
+              ></img>
+            )}
+          </div>
         </div>
         <hr />
         <div className="bottom">

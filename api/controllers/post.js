@@ -13,7 +13,8 @@ export const getPosts = async (req, res) => {
         if (err) return res.status(403).json("invalid token");
 
         const currentUser = await User.findOne({ _id: userInfo.id }).populate('following', { name: 1, profilePic: 1 });
-        const posts = await Post.find({ "userId": { $in: [...currentUser.following, userInfo.id] } }).sort({ createdAt: -1 })
+        const posts = await Post.find({ "userId": { $in: [...currentUser.following, userInfo.id] } }).sort({ createdAt: -1 }).populate('userId', { name: 1, profilePic: 1 })
+        console.log(posts);
 
         return res.status(200).json(posts);
 

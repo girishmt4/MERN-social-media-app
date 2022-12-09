@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import "./Post.scss";
 import Comments from "../comments/Comments";
 import { useState } from "react";
+import moment from "moment";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -24,16 +25,18 @@ const Post = ({ post }) => {
                 to={`/profile/${post.userId}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <span className="name">{post.name}</span>
+                <span className="name">{post.userId.name}</span>
               </Link>
-              <span className="time-stamp">1 min ago</span>
+              <span className="time-stamp">
+                {moment(post.createdAt).fromNow()}
+              </span>
             </div>
           </div>
           <MoreHorizIcon />
         </div>
         <div className="content">
           <p>{post.desc}</p>
-          <img src={post.img} alt="" />
+          {post.img && <img src={"./upload/" + post.img} alt="" />}
         </div>
         <div className="info">
           <div className="info-item">
