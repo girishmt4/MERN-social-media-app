@@ -47,7 +47,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/like', likeRoutes);
-app.use('/api/comment', commentRoutes);
+app.use('/api/comments', commentRoutes);
 
 app.listen(8800, () => {
     console.log("Backend Server is running");

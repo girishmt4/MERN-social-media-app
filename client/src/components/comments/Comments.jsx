@@ -1,45 +1,90 @@
 import { useContext } from "react";
 import "./Comments.scss";
 import { AuthContext } from "../../context/authContext";
-const Comments = () => {
-  const { currentUser } = useContext(AuthContext);
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import moment from "moment";
+import { useState } from "react";
 
-  const comments = [
-    {
-      id: 1,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "John Doe",
-      userId: 1,
-      profilePicture:
-        "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+const Comments = ({ postId }) => {
+  const { currentUser } = useContext(AuthContext);
+  const [addedComment, setAddedComment] = useState("");
+
+  const queryClient = useQueryClient();
+
+  const {
+    isLoading,
+    error,
+    data: comments,
+  } = useQuery(["comments"], async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8800/api/comments?postId=" + postId
+      );
+      return response.json();
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
+  const mutation = useMutation(
+    async (newComment) => {
+      try {
+        console.log(newComment);
+        const response = await fetch("http://localhost:8800/api/comments", {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify(newComment),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        });
+        return response.json();
+      } catch (err) {
+        console.log(err);
+      }
     },
     {
-      id: 2,
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-      name: "Jane Doe",
-      userId: 2,
-      profilePicture:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-  ];
+      onSuccess: () => {
+        queryClient.invalidateQueries(["comments"]);
+      },
+    }
+  );
+
+  const postHandler = (event) => {
+    event.preventDefault();
+    mutation.mutate({ desc: addedComment, postId: postId });
+    setAddedComment("");
+  };
 
   return (
     <div className="comments">
       <div className="new-comment">
         <img src={currentUser.profilePic} alt="" />
-        <input type="text" placeholder="Write a comment.." />
-        <button>Post</button>
+        <input
+          type="text"
+          placeholder="Write a comment.."
+          onChange={(e) => setAddedComment(e.target.value)}
+          value={addedComment}
+        />
+        <button onClick={postHandler}>Post</button>
       </div>
-      {comments.map((comment) => (
-        <div className="comment">
-          <img src={comment.profilePicture} alt="" />
-          <div className="info">
-            <span>{comment.name}</span>
-            <p>{comment.desc}</p>
-          </div>
-          <span className="timestamp">1 hour ago</span>
-        </div>
-      ))}
+      {error
+        ? "Error Occurred"
+        : isLoading
+        ? "Loading.."
+        : comments.map((comment) => (
+            <div className="comment" key={comment._id}>
+              <img src={comment.userId.profilePic} alt="" />
+              <div className="info">
+                <span>{comment.userId.name}</span>
+                <p>{comment.desc}</p>
+              </div>
+              <span className="timestamp">
+                {moment(comment.createdAt).fromNow()}
+              </span>
+            </div>
+          ))}
     </div>
   );
 };

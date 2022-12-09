@@ -18,7 +18,7 @@ const CreatePost = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      console.log(file);
+      // console.log(file);
       const response = await fetch("http://localhost:8800/api/upload", {
         method: "POST",
         body: formData,
