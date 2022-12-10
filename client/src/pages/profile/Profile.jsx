@@ -9,21 +9,34 @@ import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
+import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const Profile = () => {
+  const userId = useLocation().pathname.split("/")[2];
+
+  const { currentUser } = useContext(AuthContext);
+
+  const {
+    isLoading,
+    error,
+    data: userInfo = {},
+  } = useQuery(["userInfo" + userId], async () => {
+    try {
+      const response = await fetch("http://localhost:8800/api/users/" + userId);
+      return response.json();
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   return (
     <div className="profile">
       <div className="images">
-        <img
-          src="https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          alt=" "
-          className="cover-pic"
-        />
-        <img
-          src="https://images.pexels.com/photos/14028501/pexels-photo-14028501.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-          alt=""
-          className="profile-pic"
-        />
+        <img src={userInfo.coverPic} alt="" className="cover-pic" />
+        <img src={userInfo.profilePic} alt="" className="profile-pic" />
       </div>
       <div className="profile-container">
         <div className="user-info">
@@ -45,18 +58,22 @@ const Profile = () => {
             </a>
           </div>
           <div className="center">
-            <span>Girish Tiwale</span>
+            <span>{userInfo.name}</span>
             <div className="info">
               <div className="item">
                 <PlaceIcon />
-                <span>CA, USA</span>
+                <span>{`${userInfo.city}, ${userInfo.state}, ${userInfo.country}`}</span>
               </div>
               <div className="item">
                 <LanguageIcon />
-                <span>girishtiwale.com</span>
+                <span>{userInfo.website}</span>
               </div>
             </div>
-            <button>follow</button>
+            {currentUser._id !== userId ? (
+              <button>follow</button>
+            ) : (
+              <button>update</button>
+            )}
           </div>
           <div className="right">
             <EmailOutlinedIcon />

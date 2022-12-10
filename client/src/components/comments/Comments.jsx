@@ -17,7 +17,6 @@ const Comments = ({ postId }) => {
     data: comments,
   } = useQuery(["comments" + postId], async () => {
     try {
-      console.log(postId);
       const response = await fetch(
         "http://localhost:8800/api/comments?postId=" + postId
       );
@@ -30,7 +29,6 @@ const Comments = ({ postId }) => {
   const mutation = useMutation(
     async (newComment) => {
       try {
-        console.log(newComment);
         const response = await fetch("http://localhost:8800/api/comments", {
           method: "POST",
           credentials: "include",

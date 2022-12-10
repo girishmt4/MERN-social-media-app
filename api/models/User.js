@@ -34,19 +34,33 @@ const UserSchema = new mongoose.Schema({
     },
     followers: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: []
     }],
     following: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: []
     }],
     city: {
         type: String,
-        max: 50
+        max: 50,
+        default: ""
+    },
+    state: {
+        type: String,
+        max: 50,
+        default: ""
+    },
+    country: {
+        type: String,
+        max: 50,
+        default: ""
     },
     website: {
         type: String,
-        max: 50
+        max: 50,
+        default: ""
     }
 },
     { timestamps: true }

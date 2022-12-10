@@ -1,16 +1,17 @@
 import User from "../models/User.js";
 
 export const getUser = async (req, res) => {
-    res.send('get user')
-    // try {
-    //     const user = await User.findById(req.params.id);
 
-    //     const { password, updatedAt, ...other } = user._doc;
+    const userId = req.params.id;
+    try {
+        const userData = await User.findById(userId);
+        const { password, ...otherData } = userData._doc;
+        return res.status(200).json(otherData);
+    } catch (err) {
+        return res.status(500).json(err)
+    }
 
-    //     res.status(200).json(other)
-    // } catch (err) {
-    //     res.status(500).json(err)
-    // }
+
 };
 
 
