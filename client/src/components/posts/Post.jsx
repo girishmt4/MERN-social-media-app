@@ -18,11 +18,7 @@ const Post = ({ post }) => {
   const { currentUser } = useContext(AuthContext);
   //TEMP
 
-  const {
-    isLoading,
-    error,
-    data: likes = [],
-  } = useQuery(["likes" + post._id], async () => {
+  const { data: likes = [] } = useQuery(["likes" + post._id], async () => {
     try {
       const response = await fetch(
         "http://localhost:8800/api/likes?postId=" + post._id

@@ -9,7 +9,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
@@ -19,11 +19,7 @@ const Profile = () => {
 
   const { currentUser } = useContext(AuthContext);
 
-  const {
-    isLoading,
-    error,
-    data: userInfo = {},
-  } = useQuery(["userInfo" + userId], async () => {
+  const { data: userInfo = {} } = useQuery(["userInfo" + userId], async () => {
     try {
       const response = await fetch("http://localhost:8800/api/users/" + userId);
       return response.json();
@@ -31,6 +27,38 @@ const Profile = () => {
       console.log(err);
     }
   });
+
+  console.log(userInfo);
+
+  const queryClient = useQueryClient();
+
+  const followMutation = useMutation(
+    async (isFollowing) => {
+      const fetchMethod = isFollowing ? "DELETE" : "PUT";
+      const fetchUrl = isFollowing
+        ? "http://localhost:8800/api/users/" + userId + "/unfollow"
+        : "http://localhost:8800/api/users/" + userId + "/follow";
+
+      try {
+        const response = await fetch(fetchUrl, {
+          method: fetchMethod,
+          credentials: "include",
+        });
+        return response.json();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("userInfo" + userId);
+      },
+    }
+  );
+
+  const followHandler = async () => {
+    followMutation.mutate(userInfo.followers.includes(currentUser._id));
+  };
 
   return (
     <div className="profile">
@@ -70,7 +98,12 @@ const Profile = () => {
               </div>
             </div>
             {currentUser._id !== userId ? (
-              <button>follow</button>
+              <button onClick={followHandler}>
+                {userInfo.followers &&
+                  (userInfo.followers.includes(currentUser._id)
+                    ? "Unfollow"
+                    : "Follow")}
+              </button>
             ) : (
               <button>update</button>
             )}
