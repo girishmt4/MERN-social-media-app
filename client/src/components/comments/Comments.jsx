@@ -15,8 +15,9 @@ const Comments = ({ postId }) => {
     isLoading,
     error,
     data: comments,
-  } = useQuery(["comments"], async () => {
+  } = useQuery(["comments" + postId], async () => {
     try {
+      console.log(postId);
       const response = await fetch(
         "http://localhost:8800/api/comments?postId=" + postId
       );
@@ -46,7 +47,7 @@ const Comments = ({ postId }) => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["comments"]);
+        queryClient.invalidateQueries(["comments" + postId]);
       },
     }
   );

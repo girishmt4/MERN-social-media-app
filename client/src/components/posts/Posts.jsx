@@ -3,7 +3,11 @@ import "./Posts.scss";
 import { useQuery } from "@tanstack/react-query";
 
 const Posts = () => {
-  const { isLoading, error, data } = useQuery(["posts"], async () => {
+  const {
+    isLoading,
+    error,
+    data: posts,
+  } = useQuery(["posts"], async () => {
     try {
       const response = await fetch("http://localhost:8800/api/posts", {
         credentials: "include",
@@ -20,7 +24,7 @@ const Posts = () => {
         ? "Something went wrong.."
         : isLoading
         ? "Loading..."
-        : data.map((post) => <Post key={post._id} post={post} />)}
+        : posts.map((post) => <Post key={post._id} post={post} />)}
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import express from 'express';
+import { getLikes } from '../controllers/like.js';
 const router = express();
 
-router.get('/', (req, res) => {
-    res.send('this is like route')
-});
+router.get('/', getLikes);
 
 export default router;

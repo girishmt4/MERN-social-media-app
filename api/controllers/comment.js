@@ -19,7 +19,6 @@ export const createComment = async (req, res) => {
         if (err) return res.status(403).json("invalid token");
 
         const newComment = new Comment({ ...req.body, userId: userInfo.id });
-        console.log(newComment);
 
         try {
             const savedComment = await newComment.save();

@@ -46,7 +46,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
-app.use('/api/like', likeRoutes);
+app.use('/api/likes', likeRoutes);
 app.use('/api/comments', commentRoutes);
 
 app.listen(8800, () => {
@@ -57,13 +57,4 @@ mongoose.connect(process.env.MONGO_URL, (err) => {
     if (err) console.log(err)
     else console.log("mongdb is connected");
 });
-
-
-
-// const helmet = require('helmet');
-// const morgan = require('morgan');
-
-
-
-
 

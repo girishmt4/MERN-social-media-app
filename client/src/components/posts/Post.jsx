@@ -8,11 +8,31 @@ import "./Post.scss";
 import Comments from "../comments/Comments";
 import { useState } from "react";
 import moment from "moment";
+import { useQuery } from "@tanstack/react-query";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
+
+  const { currentUser } = useContext(AuthContext);
   //TEMP
-  const liked = false;
+
+  const {
+    isLoading,
+    error,
+    data: likes = [],
+  } = useQuery(["likes" + post._id], async () => {
+    try {
+      // console.log("inside");
+      const response = await fetch(
+        "http://localhost:8800/api/likes?postId=" + post._id
+      );
+      return response.json();
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
   return (
     <div className="post">
@@ -40,8 +60,12 @@ const Post = ({ post }) => {
         </div>
         <div className="info">
           <div className="info-item">
-            {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            12 Likes
+            {likes.find((e) => e._id === currentUser._id) ? (
+              <FavoriteOutlinedIcon style={{ color: "red" }} />
+            ) : (
+              <FavoriteBorderOutlinedIcon />
+            )}
+            {`${likes.length} Likes`}
           </div>
           <div
             className="info-item"
