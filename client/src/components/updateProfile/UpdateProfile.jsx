@@ -8,7 +8,7 @@ const UpdateProfile = ({ setOpenUpdate, userInfo }) => {
   const [profile, setProfile] = useState(null);
   const [texts, setTexts] = useState({
     email: userInfo.email,
-    password: userInfo.password,
+    password: "",
     name: userInfo.name,
     city: userInfo.city,
     state: userInfo.state,
@@ -40,8 +40,12 @@ const UpdateProfile = ({ setOpenUpdate, userInfo }) => {
 
   const mutation = useMutation(
     async (updatedUser) => {
+      if (updatedUser.password.trim().length === 0) {
+        delete updatedUser.password;
+      }
+      console.log(updatedUser);
+
       try {
-        console.log(updatedUser);
         const response = await fetch(
           "http://localhost:8800/api/users/" + userInfo._id,
           {

@@ -1,7 +1,6 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken"
-import router from "../routes/users.js";
-
+import bcrypt from 'bcrypt';
 export const getUser = async (req, res) => {
     const userId = req.params.id;
     try {
@@ -84,7 +83,6 @@ export const updateUser = async (req, res) => {
 
         const thisProfileId = req.params.id;
         if (thisProfileId === userInfo.id) {
-            console.log(req.body);
             if (req.body.password) {
                 try {
                     const salt = await bcrypt.genSalt(10);
@@ -94,12 +92,9 @@ export const updateUser = async (req, res) => {
                 }
             }
             try {
-                console.log("inside update");
                 const user = await User.findByIdAndUpdate(req.params.id, { $set: req.body });
-                console.log("updated verified");
                 res.status(200).json("Account Updated")
             } catch (err) {
-                console.log("update error");
                 return res.status(500).json(err);
             }
 
