@@ -105,10 +105,10 @@ const Post = ({ post }) => {
               </span>
             </div>
           </div>
-          <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
-          {menuOpen && post.userId._id === currentUser._id && (
-            <button onClick={deleteHandler}>delete</button>
+          {post.userId._id === currentUser._id && (
+            <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
           )}
+          {menuOpen && <button onClick={deleteHandler}>delete</button>}
         </div>
         <div className="content">
           <p>{post.desc}</p>
