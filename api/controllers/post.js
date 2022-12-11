@@ -50,6 +50,45 @@ export const createPost = async (req, res) => {
 
 }
 
+export const deletePost = async (req, res) => {
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(401).json("Not Logged In");
+
+    jwt.verify(token, process.env.JWT_SECRET, async (err, userInfo) => {
+
+        if (err) return res.status(403).json("Invalid Token");
+
+        try {
+            const post = await Post.findById(req.params.id);
+            if (userInfo.id === post.userId.toString()) {
+                await post.deleteOne();
+                return res.status(200).json("Post Deleted")
+            } else {
+                return res.status(403).json("Not Your Post To Delete")
+            }
+        } catch (err) {
+            return res.status(500).json(err);
+        }
+    })
+}
+
+
+// //delete a post
+// router.delete('/:id', async (req, res) => {
+//     try {
+//         const post = await Post.findById(req.params.id);
+//         if (post.userId === req.body.userId) {
+//             await post.deleteOne();
+//             res.status(200).json("deleted")
+//         } else {
+//             res.status(403).json("not your post to delete");
+//         }
+//     } catch (err) {
+//         res.status(500).json(err)
+//     }
+// })
+
+
 // //get timeline posts
 // router.get('/timeline/all', async (req, res) => {
 //     try {
@@ -93,20 +132,7 @@ export const createPost = async (req, res) => {
 //     }
 // })
 
-// //delete a post
-// router.delete('/:id', async (req, res) => {
-//     try {
-//         const post = await Post.findById(req.params.id);
-//         if (post.userId === req.body.userId) {
-//             await post.deleteOne();
-//             res.status(200).json("deleted")
-//         } else {
-//             res.status(403).json("not your post to delete");
-//         }
-//     } catch (err) {
-//         res.status(500).json(err)
-//     }
-// })
+
 
 // //like a post
 // router.put('/:id/like', async (req, res) => {

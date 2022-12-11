@@ -14,6 +14,7 @@ import { AuthContext } from "../../context/authContext";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
   //TEMP
@@ -56,8 +57,34 @@ const Post = ({ post }) => {
     }
   );
 
+  const deleteMutation = useMutation(
+    async (postId) => {
+      try {
+        const response = await fetch(
+          "http://localhost:8800/api/posts/" + postId,
+          {
+            method: "DELETE",
+            credentials: "include",
+          }
+        );
+        return response.json();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("posts");
+      },
+    }
+  );
+
   const likeHandler = () => {
     likeHandlerMutation.mutate(likes.find((e) => e._id === currentUser._id));
+  };
+
+  const deleteHandler = () => {
+    deleteMutation.mutate(post._id);
   };
 
   return (
@@ -78,7 +105,10 @@ const Post = ({ post }) => {
               </span>
             </div>
           </div>
-          <MoreHorizIcon />
+          <MoreHorizIcon onClick={() => setMenuOpen(!menuOpen)} />
+          {menuOpen && post.userId._id === currentUser._id && (
+            <button onClick={deleteHandler}>delete</button>
+          )}
         </div>
         <div className="content">
           <p>{post.desc}</p>
