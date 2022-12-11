@@ -2,16 +2,19 @@ import Post from "./Post";
 import "./Posts.scss";
 import { useQuery } from "@tanstack/react-query";
 
-const Posts = () => {
+const Posts = ({ userId = "" }) => {
   const {
     isLoading,
     error,
     data: posts,
-  } = useQuery(["posts"], async () => {
+  } = useQuery(["posts" + userId], async () => {
     try {
-      const response = await fetch("http://localhost:8800/api/posts", {
-        credentials: "include",
-      });
+      const response = await fetch(
+        "http://localhost:8800/api/posts?userId=" + userId,
+        {
+          credentials: "include",
+        }
+      );
       return response.json();
     } catch (err) {
       console.log(err);

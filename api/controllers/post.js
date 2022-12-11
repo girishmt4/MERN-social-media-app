@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 
 export const getPosts = async (req, res) => {
 
+    const userId = req.query.userId;
+
     const token = req.cookies.accessToken;
     if (!token) {
         return res.status(401).json("Not Logged in");
@@ -12,11 +14,17 @@ export const getPosts = async (req, res) => {
     jwt.verify(token, process.env.JWT_SECRET, async (err, userInfo) => {
         if (err) return res.status(403).json("invalid token");
 
-        const currentUser = await User.findOne({ _id: userInfo.id }).populate('following', { name: 1, profilePic: 1 });
+        if (userId) {
+            const posts = await Post.find({ "userId": userId }).sort({ createdAt: -1 }).populate('userId', { name: 1, profilePic: 1 });
+            return res.status(200).json(posts);
 
-        const posts = await Post.find({ "userId": { $in: [...currentUser.following, userInfo.id] } }).sort({ createdAt: -1 }).populate('userId', { name: 1, profilePic: 1 })
+        } else {
+            const currentUser = await User.findOne({ _id: userInfo.id }).populate('following', { name: 1, profilePic: 1 });
+            const posts = await Post.find({ "userId": { $in: [...currentUser.following, userInfo.id] } }).sort({ createdAt: -1 }).populate('userId', { name: 1, profilePic: 1 })
+            return res.status(200).json(posts);
+        }
 
-        return res.status(200).json(posts);
+
 
     });
 }

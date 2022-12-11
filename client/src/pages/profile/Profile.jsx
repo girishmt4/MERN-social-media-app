@@ -11,10 +11,12 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
+import UpdateProfile from "../../components/updateProfile/UpdateProfile";
 
 const Profile = () => {
+  const [openUpdate, setOpenUpdate] = useState(false);
   const userId = useLocation().pathname.split("/")[2];
 
   const { currentUser } = useContext(AuthContext);
@@ -28,7 +30,7 @@ const Profile = () => {
     }
   });
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   const queryClient = useQueryClient();
 
@@ -98,14 +100,24 @@ const Profile = () => {
               </div>
             </div>
             {currentUser._id !== userId ? (
-              <button onClick={followHandler}>
-                {userInfo.followers &&
-                  (userInfo.followers.includes(currentUser._id)
-                    ? "Unfollow"
-                    : "Follow")}
-              </button>
+              userInfo.followers &&
+              userInfo.followers.includes(currentUser._id) ? (
+                <button
+                  style={{ backgroundColor: "red" }}
+                  onClick={followHandler}
+                >
+                  Unfollow
+                </button>
+              ) : (
+                <button
+                  style={{ backgroundColor: "green" }}
+                  onClick={followHandler}
+                >
+                  Follow
+                </button>
+              )
             ) : (
-              <button>update</button>
+              <button onClick={() => setOpenUpdate(true)}>Update</button>
             )}
           </div>
           <div className="right">
@@ -113,8 +125,11 @@ const Profile = () => {
             <MoreVertIcon />
           </div>
         </div>
-        <Posts />
+        <Posts userId={userId} />
       </div>
+      {openUpdate && (
+        <UpdateProfile setOpenUpdate={setOpenUpdate} userInfo={userInfo} />
+      )}
     </div>
   );
 };
