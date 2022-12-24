@@ -37,7 +37,12 @@ function App() {
   };
 
   const ProtectedRoute = ({ children }) => {
-    if (currentUser === null) {
+
+
+    const token = localStorage.getItem('accessToken');
+
+
+    if (currentUser === null || !token) {
       return <Navigate to='/login/' />
     }
 
