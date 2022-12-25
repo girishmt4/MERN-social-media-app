@@ -19,6 +19,11 @@
       align-items: center;
       gap: 2rem;
 
+      a {
+        color: themed("textColor");
+        display: flex;
+      }
+
       span {
         font-weight: bold;
         font-size: 1.25rem;

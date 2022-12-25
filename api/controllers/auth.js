@@ -2,6 +2,8 @@ import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+
+
 export const registerUser = async (req, res) => {
     //check user if exists
     try {
@@ -30,6 +32,22 @@ export const registerUser = async (req, res) => {
     }
 }
 
+//Verify Token
+export const verifyLogin = async (req, res) => {
+
+    const token = req.cookies.accessToken;
+    if (!token) {
+        return res.status(401).json("You are not logged in");
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, async (err, userInfo) => {
+        const currentUser = await User.findOne({ _id: userInfo.id })
+        const { password, ...otherData } = currentUser;
+        return res.status(200).json(otherData);
+    })
+
+}
+
 
 // //LOGIN
 export const loginUser = async (req, res) => {
@@ -47,7 +65,7 @@ export const loginUser = async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
         const { password, ...otherData } = user;
-        res.cookie('accessToken', token, { httpOnly: true }).status(200).json(otherData);
+        await res.cookie('accessToken', token, { httpOnly: true }).status(200).json(otherData);
 
     } catch (err) {
         res.status(500).json(err)

@@ -15,6 +15,11 @@ import Fund from "../../assets/13.png";
 import Item from "./item/Item";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import ItemContainer from "./item/ItemContainer";
+import SuggestionItem from "../rightBar/items/SuggestionItem";
+
+const imagesrc =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyyFHOw8dO_4vTwdIEx6VeI-2U6mBz7YTQgjWVJcvT_sx3C3MMSkJ-Q8wlEeANOyTtGhY&usqp=CAU";
 
 const LeftBar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -22,40 +27,40 @@ const LeftBar = () => {
   return (
     <div className="leftbar">
       <div className="main-container">
-        <div className="item-container">
+        <ItemContainer>
           <Item
             className="user"
             image={currentUser.profilePic}
             label={currentUser.name}
           />
           <Item className="item" image={Friends} label="Friends" />
-          <Item className="item" image={Groups} label="Groups" />
+          {/* <Item className="item" image={Groups} label="Groups" />
           <Item className="item" image={Market} label="Market" />
           <Item className="item" image={Watch} label="Watch" />
-          <Item className="item" image={Memories} label="Memories" />
-        </div>
-        <div className="item-container">
+          <Item className="item" image={Memories} label="Memories" /> */}
+        </ItemContainer>
+
+        <ItemContainer>
           <span>Your Shortcuts</span>
           <Item className="item" image={Events} label="Events" />
           <Item className="item" image={Gaming} label="Gaming" />
           <Item className="item" image={Gallery} label="Gallery" />
           <Item className="item" image={Videos} label="Videos" />
           <Item className="item" image={Messages} label="Messages" />
-        </div>
+        </ItemContainer>
 
-        <div className="item-container">
+        <ItemContainer>
           <span>Others</span>
           <Item className="item" image={Fund} label="Fund" />
           <Item className="item" image={Tutorials} label="Tutorials" />
           <Item className="item" image={Courses} label="Courses" />
-
           <Item className="item" image={Fund} label="Fund" />
           <Item className="item" image={Tutorials} label="Tutorials" />
           <Item className="item" image={Courses} label="Courses" />
           <Item className="item" image={Fund} label="Fund" />
           <Item className="item" image={Tutorials} label="Tutorials" />
           <Item className="item" image={Courses} label="Courses" />
-        </div>
+        </ItemContainer>
       </div>
     </div>
   );

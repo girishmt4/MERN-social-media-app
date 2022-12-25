@@ -5,6 +5,23 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+    // const [currentUser, setCurrentUser] = useState(null);
+
+    // const verifyLogin = async () => {
+    //     await fetch("http://localhost:8800/api/auth/verify", {
+    //         credentials: "include",
+    //     })
+    //         .then(res => {
+    //             if (res.ok) return res.json();
+    //             return res.json().then(errorMessage => {
+    //                 throw new Error(errorMessage);
+    //             })
+    //         })
+    //         .then(data => {
+    //             setCurrentUser(data._doc);
+    //         })
+    // };
+    // // verifyLogin();
 
     const login = async (inputs) => {
         await fetch('http://localhost:8800/api/auth/login', {
@@ -27,7 +44,10 @@ export const AuthContextProvider = ({ children }) => {
             })
     };
 
+
+
     useEffect(() => {
+
         localStorage.setItem('user', JSON.stringify(currentUser))
     }, [currentUser]);
 

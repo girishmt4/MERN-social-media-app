@@ -12,10 +12,12 @@ import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
+
 function App() {
 
   const { currentUser } = useContext(AuthContext);
   const { darkMode } = useContext(DarkModeContext);
+
 
   const queryClient = new QueryClient();
 
@@ -39,10 +41,8 @@ function App() {
   const ProtectedRoute = ({ children }) => {
 
 
-    const token = localStorage.getItem('accessToken');
-
-
-    if (currentUser === null || !token) {
+    // console.log(currentUser);
+    if (currentUser === null) {
       return <Navigate to='/login/' />
     }
 

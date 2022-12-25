@@ -45,7 +45,7 @@ const RightBar = () => {
           />
         </ItemContainer>
 
-        <ItemContainer>
+        {/* <ItemContainer>
           <span>Online Friends</span>
           <OnlineItem userImage={imagesrc} userLabel="My Friend" />
           <OnlineItem userImage={imagesrc} userLabel="My Friend" />
@@ -55,7 +55,7 @@ const RightBar = () => {
           <OnlineItem userImage={imagesrc} userLabel="My Friend" />
           <OnlineItem userImage={imagesrc} userLabel="My Friend" />
           <OnlineItem userImage={imagesrc} userLabel="My Friend" />
-        </ItemContainer>
+        </ItemContainer> */}
       </div>
     </div>
   );

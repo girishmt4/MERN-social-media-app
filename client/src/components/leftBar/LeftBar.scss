@@ -1,7 +1,7 @@
 @import "../../App.scss";
 
 .leftbar {
-  flex: 2;
+  flex: 3;
   @include themify($themes) {
     position: sticky;
     top: 4rem;
@@ -11,6 +11,10 @@
     color: themed("textColor");
 
     @include mobile {
+      display: none;
+    }
+
+    @media (max-width: 630px) {
       display: none;
     }
 
@@ -38,9 +42,9 @@
         }
         background-color: themed("bg");
 
-        span {
-          font-size: 0.75rem;
-        }
+        // span {
+        //   // font-size: 0.75rem;
+        // }
         .user {
           display: flex;
           align-items: center;
@@ -54,7 +58,7 @@
             object-fit: cover;
           }
           span {
-            font-size: 0.9rem;
+            // font-size: 0.9rem;
             font-weight: 30rem;
           }
         }
@@ -69,7 +73,7 @@
             height: 2rem;
           }
           span {
-            font-size: 0.9rem;
+            // font-size: 0.9rem;
           }
         }
       }

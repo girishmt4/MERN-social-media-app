@@ -22,7 +22,10 @@ const NavBar = () => {
         <Link to="/" style={{ textDecoration: "none" }}>
           <span>MeSocial.</span>
         </Link>
-        <HomeOutlinedIcon />
+
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <HomeOutlinedIcon> </HomeOutlinedIcon>
+        </Link>
 
         {darkMode ? (
           <WbSunnyOutlinedIcon onClick={toggle} />
@@ -30,7 +33,7 @@ const NavBar = () => {
           <DarkModeOutlinedIcon onClick={toggle} />
         )}
 
-        <GridViewOutlinedIcon />
+        {/* <GridViewOutlinedIcon /> */}
         <div className="search">
           <SearchOutlinedIcon />
           <input type="text" placeholder="Search..." />
@@ -38,8 +41,8 @@ const NavBar = () => {
       </div>
       <div className="right">
         <PersonOutlinedIcon />
-        <EmailOutlinedIcon />
-        <NotificationsOutlinedIcon />
+        {/* <EmailOutlinedIcon /> */}
+        {/* <NotificationsOutlinedIcon /> */}
         <div className="user">
           <img src={currentUser.profilePic} alt="" />
           <span>{currentUser.name}</span>

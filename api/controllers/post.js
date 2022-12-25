@@ -8,6 +8,7 @@ export const getPosts = async (req, res) => {
 
     const token = req.cookies.accessToken;
     if (!token) {
+
         return res.status(401).json("Not Logged in");
     }
 
