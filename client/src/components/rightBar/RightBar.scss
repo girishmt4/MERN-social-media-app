@@ -28,17 +28,26 @@
         padding: 1rem;
         margin: 1rem;
         background-color: themed("bg");
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        // justify-content: space-between;
 
         span {
           color: themed("textColor");
         }
         .user {
           display: flex;
-          flex-direction: column;
+          @media (max-width: 1580px) {
+            flex-direction: column;
+          }
           align-items: center;
           justify-content: space-between;
+          text-align: center;
           margin: 1rem 0rem;
           gap: 0.5rem;
+          flex-wrap: wrap;
 
           .userInfo {
             display: flex;
