@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,8 +11,13 @@ const Login = () => {
     password: "",
   });
   const [error, setError] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    isSubmitted && navigate("/", { replace: true });
+  }, [isSubmitted, navigate]);
 
   const changeHandler = (event) => {
     setInputs((prev) => ({ ...prev, [event.target.name]: event.target.value }));
@@ -22,7 +28,8 @@ const Login = () => {
 
     try {
       await login(inputs);
-      navigate("/");
+      console.log("Logged in");
+      setIsSubmitted(true);
     } catch (err) {
       setError(err.message);
     }

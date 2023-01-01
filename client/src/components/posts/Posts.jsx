@@ -27,6 +27,8 @@ const Posts = ({ userId = "" }) => {
         ? "Something went wrong.."
         : isLoading
         ? "Loading..."
+        : posts.length === 0
+        ? "No Posts To Display! Please Follow Someone to see their posts in your feed! "
         : posts.map((post) => <Post key={post._id} post={post} />)}
     </div>
   );

@@ -58,3 +58,9 @@ body {
   height: 100%;
   overflow-x: hidden;
 }
+
+// @include themify($themes) {
+// .outlet {
+//   background-color: themed("bg");
+// }
+// }

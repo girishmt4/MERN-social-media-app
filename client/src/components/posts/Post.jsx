@@ -30,6 +30,20 @@ const Post = ({ post }) => {
     }
   });
 
+  const { data: comments = [] } = useQuery(
+    ["comments" + post._id],
+    async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8800/api/comments?postId=" + post._id
+        );
+        return response.json();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  );
+
   const queryClient = useQueryClient();
 
   const likeHandlerMutation = useMutation(
@@ -92,7 +106,7 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.profilePic} alt="" />
+            <img src={post.userId.profilePic} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userId._id}`}
@@ -130,12 +144,12 @@ const Post = ({ post }) => {
             className="info-item"
             onClick={() => setCommentOpen(!commentOpen)}
           >
-            <TextsmsOutlinedIcon />4 Comments
+            <TextsmsOutlinedIcon /> {`${comments.length} Comments`}
           </div>
-          <div className="info-item">
+          {/* <div className="info-item">
             <ShareOutlinedIcon />
             Share
-          </div>
+          </div> */}
         </div>
         {commentOpen && <Comments postId={post._id} />}
       </div>

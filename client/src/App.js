@@ -28,7 +28,7 @@ function App() {
           <NavBar />
           <div className="bars-container" style={{ display: 'flex' }}>
             <LeftBar />
-            <div className="outlet" style={{ flex: 6 }}>
+            <div className="outlet" style={{ flex: 6, backgroundColor: `${darkMode ? '#333' : '#f6f3f3'}` }}>
               <Outlet />
             </div>
             <RightBar />
